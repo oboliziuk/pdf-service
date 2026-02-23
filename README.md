@@ -1,0 +1,105 @@
+# PDF Backend Project
+
+An asynchronous REST API built with FastAPI, PostgreSQL, SQLAlchemy (async), Alembic, and Docker.
+
+## Tech Stack
+
+- FastAPI
+- PostgreSQL
+- SQLAlchemy (Async)
+- Alembic (Database migrations)
+- Pydantic v2
+- Docker & Docker Compose
+
+
+## Project Structure
+
+```
+app/
+│
+├── main.py
+├── models/
+├── schemas/
+├── api/
+├── core/
+│
+alembic/
+alembic.ini
+Dockerfile
+docker-compose.yml
+requirements.txt
+.env.example
+README.md
+```
+
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example`.
+
+Example:
+
+```env
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
+SECRET_KEY=your-secret-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+Do not commit your `.env` file to GitHub.
+
+---
+
+## Run with Docker
+
+### Build and start containers
+
+```bash
+docker compose up --build
+```
+
+### Stop containers
+
+```bash
+docker compose down
+```
+
+---
+
+## Database Migrations (Alembic)
+
+### Apply migrations
+
+```bash
+docker compose exec backend alembic upgrade head
+```
+
+### Create a new migration
+
+```bash
+docker compose exec backend alembic revision --autogenerate -m "migration message"
+```
+
+---
+
+## API Documentation
+
+Once the server is running:
+
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+
+---
+
+## Main Features
+
+- User registration and authentication
+- JWT-based authorization
+- PDF export of user profile
+
+---
+
+##  Author
+
+Oksana Boliziuk
