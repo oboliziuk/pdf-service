@@ -10,26 +10,56 @@ An asynchronous REST API built with FastAPI, PostgreSQL, SQLAlchemy (async), Ale
 - Alembic (Database migrations)
 - Pydantic v2
 - Docker & Docker Compose
+- bcrypt
+- ReportLab
+- AWS SQS
+- AWS S3
+- LocalStack
+- Docker & Docker Compose
 
 
 ## Project Structure
 
 ```
-app/
+NewApiProjects/
 │
-├── main.py
-├── models/
-├── schemas/
-├── api/
-├── core/
+├── auth_service/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── schemas.py
+│   │   ├── crud.py
+│   │   ├── api/
+│   │   │   ├── deps.py
+│   │   │   └── routes/
+│   │   │       └── auth.py
+│   │   ├── core/
+│   │   │   └── config.py
+│   │   └── db/
+│   │       ├── database.py
+│   │       └── models.py
+│   ├── alembic/
+│   ├── alembic.ini
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── requirements-test.txt
 │
-alembic/
-alembic.ini
-Dockerfile
-docker-compose.yml
-requirements.txt
-.env.example
-README.md
+├── pdf_service/
+│   ├── pdf.py
+│   ├── worker.py
+│   ├── config.py
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── localstack-init/
+│   └── init.sh
+│
+├── tests/
+│   ├── conftest.py
+│   └── test_auth.py
+│
+├── docker-compose.yml
+├── .env.example
+└── README.md
 ```
 
 
@@ -44,6 +74,14 @@ DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# AWS LocalStack
+AWS_ENDPOINT_URL=http://localstack:4566
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=test
+AWS_SECRET_ACCESS_KEY=test
+SQS_QUEUE_URL=http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pdf-jobs
+S3_BUCKET_NAME=pdf-profiles
 ```
 
 Do not commit your `.env` file to GitHub.
@@ -62,6 +100,11 @@ docker compose up --build
 
 ```bash
 docker compose down
+```
+
+### Stop and remove volumes
+```bash
+docker compose down -v
 ```
 
 ---
@@ -86,8 +129,8 @@ docker compose exec backend alembic revision --autogenerate -m "migration messag
 
 Once the server is running:
 
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+- Swagger UI (auth): http://localhost:8000/docs
+- Swagger UI (pdf): http://localhost:8001/docs
 
 
 ---
@@ -99,6 +142,12 @@ Once the server is running:
 - PDF export of user profile
 
 ---
+
+## Verify S3 Upload
+
+```
+docker exec localstack awslocal s3 ls s3://pdf-profiles/profiles/ --recursive
+```
 
 ##  Author
 
