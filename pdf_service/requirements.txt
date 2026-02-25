@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-jose[cryptography]
+pydantic-settings
+reportlab
+boto3
