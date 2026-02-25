@@ -8,3 +8,6 @@ venv/
 
 *.log
 *.db
+
+.idea/
+.venv/
