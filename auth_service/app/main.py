@@ -10,7 +10,7 @@ import app.crud as crud
 from app.api.routes.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.schemas import UserBase, UserCreate, UserLogin
 
-app = FastAPI(title="FastAPI Authentication with Database", version="1.0.0")
+app = FastAPI(title="FastAPI Authentication")
 
 
 @app.post("/register", response_model=UserBase)

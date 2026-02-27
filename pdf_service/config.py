@@ -3,6 +3,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+
     AWS_ENDPOINT_URL: str = "http://localstack:4566"
     AWS_REGION: str = "us-east-1"
     AWS_ACCESS_KEY_ID: str = "test"
